@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagem Especial</title>
+    <style>
+        /* ===== CSS (ESTILIZAÇÃO MINIMALISTA) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Partículas flutuantes de fundo */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Container principal */
+        .message-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 4rem 3rem;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 2s ease;
+            position: relative;
+        }
+
+        /* Animação de entrada */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Mensagem principal */
+        .main-message {
+            font-size: 3.2rem;
+            color: white;
+            font-weight: 300;
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            animation: glow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            }
+            to {
+                text-shadow: 0 2px 20px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        /* Submensagem */
+        .sub-message {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            animation: slideIn 2s ease 0.5s backwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Botão interativo (opcional) */
+        .action-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-family: inherit;
+            animation: bounceIn 2s ease 1s backwards;
+        }
+
+        .action-button:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Decoração extra */
+        .decoration {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.4);
+            animation: rotate 10s linear infinite;
+        }
+
+        .decoration.top-left {
+            top: -10px;
+            left: -10px;
+        }
+
+        .decoration.top-right {
+            top: -10px;
+            right: -10px;
+            animation-delay: -5s;
+        }
+
+        .decoration.bottom-left {
+            bottom: -10px;
+            left: -10px;
+            animation-delay: -2s;
+        }
+
+        .decoration.bottom-right {
+            bottom: -10px;
+            right: -10px;
+            animation-delay: -7s;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .message-container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .main-message {
+                font-size: 2.2rem;
+            }
+            
+            .sub-message {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-message {
+                font-size: 1.8rem;
+            }
+            
+            .sub-message {
+                font-size: 1rem;
+            }
+            
+            .action-button {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Efeito de clique nas partículas */
+        .particle-burst {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: burst 1s ease-out forwards;
+        }
+
+        @keyframes burst {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(4) translateY(-50px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HTML (ESTRUTURA SIMPLES) ===== -->
+    
+    <!-- Partículas de fundo geradas dinamicamente -->
+    <div id="particles"></div>
+    
+    <!-- Container principal com a mensagem única -->
+    <div class="message-container" id="messageContainer">
+        <!-- Decorações -->
+        <div class="decoration top-left">✨</div>
+        <div class="decoration top-right">🌟</div>
+        <div class="decoration bottom-left">💫</div>
+        <div class="decoration bottom-right">⭐</div>
+        
+        <!-- A MENSAGEM PRINCIPAL (ÚNICA INFORMAÇÃO) -->
+        <div class="main-message" id="mainMessage">
+            Ai ze da manga!
+        </div>
+        
+        <div class="sub-message" id="subMessage">
+            Clica ai no boatao para mudar as mensagens
+        </div>
+        
+        <!-- Botão opcional -->
+        <button class="action-button" id="actionButton">
+            ✨ Clica aqui veado
+        </button>
+    </div>
+
+    <script>
+        // ===== JAVASCRIPT (FUNCIONALIDADE MÍNIMA) =====
+        
+        // Classe para gerenciar o site de mensagem única
+        class SingleMessageSite {
+            constructor() {
+                this.messages = [
+                    {
+                        main: "CLica ai no botao caralho",
+                        sub: "Receba a mensagem."
+                    },
+                    {
+                        main: "Vai se fuder caralho",
+                        sub: "Tua pila muito pequena."
+                    },
+                    {
+                        main: "Seu corno!",
+                        sub: "Tomara que te comam o cu."
+                    },
+                    {
+                        main: "Ai o viado",
+                        sub: "vai tratar do chifre caralho."
+                    },
+                    {
+                        main: "SEUS IDIOTASSSSSSSSSSS",
+                        sub: "VSF."
+                    }
+                ];
+                this.currentMessageIndex = 0;
+                this.init();
+            }
+
+            init() {
+                this.createParticles();
+                this.setupEventListeners();
+                this.startMessageRotation();
+            }
+
+            // Método para criar partículas flutuantes
+            createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const numberOfParticles = 20;
+
+                for (let i = 0; i < numberOfParticles; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    // Posição aleatória
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    
+                    // Delay aleatório na animação
+                    particle.style.animationDelay = Math.random() * 6 + 's';
+                    particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                    
+                    particlesContainer.appendChild(particle);
+                }
+            }
+
+            // Método para configurar event listeners
+            setupEventListeners() {
+                const actionButton = document.getElementById('actionButton');
+                const messageContainer = document.getElementById('messageContainer');
+
+                // Clique no botão para trocar mensagem
+                actionButton.addEventListener('click', () => {
+                    this.changeMessage();
+                    this.createClickEffect(event);
+                });
+
+                // Clique em qualquer lugar para criar efeito
+                document.addEventListener('click', (e) => {
+                    if (!messageContainer.contains(e.target)) {
+                        this.createClickEffect(e);
+                    }
+                });
+
+                // Tecla Space para trocar mensagem
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.changeMessage();
+                    }
+                });
+            }
+
+            // Método para trocar mensagem
+            changeMessage() {
+                this.currentMessageIndex = (this.currentMessageIndex + 1) % this.messages.length;
+                const currentMessage = this.messages[this.currentMessageIndex];
+                
+                const mainElement = document.getElementById('mainMessage');
+                const subElement = document.getElementById('subMessage');
+                
+                // Animação de saída
+                mainElement.style.animation = 'none';
+                subElement.style.animation = 'none';
+                
+                setTimeout(() => {
+                    mainElement.textContent = currentMessage.main;
+                    subElement.textContent = currentMessage.sub;
+                    
+                    // Animação de entrada
+                    mainElement.style.animation = 'fadeInUp 1s ease';
+                    subElement.style.animation = 'slideIn 1s ease 0.3s backwards';
+                }, 100);
+            }
+
+            // Método para criar efeito de clique
+            createClickEffect(event) {
+                const burst = document.createElement('div');
+                burst.className = 'particle-burst';
+                burst.style.left = event.clientX + 'px';
+                burst.style.top = event.clientY + 'px';
+                
+                document.body.appendChild(burst);
+                
+                setTimeout(() => {
+                    document.body.removeChild(burst);
+                }, 1000);
+            }
+
+            // Método para rotação automática de mensagens (opcional)
+            startMessageRotation() {
+                setInterval(() => {
+                    this.changeMessage();
+                }, 10000); // Troca a cada 10 segundos
+            }
+        }
+
+        // Classe para efeitos visuais extras
+        class VisualEnhancer {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.addMouseTracker();
+                this.addKeyboardEffects();
+            }
+
+            // Método para rastrear movimento do mouse
+            addMouseTracker() {
+                document.addEventListener('mousemove', (e) => {
+                    const container = document.getElementById('messageContainer');
+                    const rect = container.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    
+                    const deltaX = (e.clientX - centerX) / 50;
+                    const deltaY = (e.clientY - centerY) / 50;
+                    
+                    container.style.transform = `translate(${deltaX}px, ${deltaY}px) perspective(1000px) rotateX(${-deltaY}deg) rotateY(${deltaX}deg)`;
+                });
+
+                document.addEventListener('mouseleave', () => {
+                    const container = document.getElementById('messageContainer');
+                    container.style.transform = 'translate(0px, 0px) perspective(1000px) rotateX(0deg) rotateY(0deg)';
+                });
+            }
+
+            // Método para efeitos de teclado
+            addKeyboardEffects() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Enter') {
+                        const container = document.getElementById('messageContainer');
+                        container.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            container.style.transform = 'scale(1)';
+                        }, 200);
+                    }
+                });
+            }
+        }
+
+        // ===== INICIALIZAÇÃO =====
+        // Ponto onde tudo se conecta
+        document.addEventListener('DOMContentLoaded', function() {
+            // Instancia a classe principal
+            const singleSite = new SingleMessageSite();
+            
+            // Instancia melhorias visuais
+            const visualEnhancer = new VisualEnhancer();
+            
+            console.log('Site de mensagem única carregado! ✨');
+            
+            // Mensagem no console para desenvolvedores curiosos
+            console.log('🎉 Dica: Pressione ESPAÇO ou clique no botão para trocar a mensagem!');
+        });
+    </script>
+</body>
+</html>
